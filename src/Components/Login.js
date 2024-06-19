@@ -94,7 +94,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/login",
+        "https://tts-backend-ho81.onrender.com/login",
         formData,
         {
           headers: {
@@ -106,11 +106,11 @@ const Login = () => {
         console.log(response.data);
         window.location.href = "/dashboard";
       } else {
-        console.error("Login failed: ", response.statusText);
+        alert("Incorrect Login");
       }
     } catch (error) {
-      console.error("Error uploading the file: ", error);
-      alert("Login Incorrect");
+      alert("Incorrect Login");
+      console.error(error);
     }
   };
 

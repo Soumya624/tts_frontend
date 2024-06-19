@@ -90,20 +90,20 @@ const ForgotPassword = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
 
-    formData.append("email",email);
-    formData.append("password",password);
+    formData.append("email", email);
+    formData.append("password", password);
 
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
 
     try {
-      const response = axios.post(
-        "http://127.0.0.1:5000/forgotPassword",
+      const response = await axios.post(
+        "https://tts-backend-ho81.onrender.com/forgotPassword",
         formData,
         {
           headers: {
@@ -111,9 +111,15 @@ const ForgotPassword = () => {
           },
         }
       );
-      console.log(response.data);
+      if (response.status === 200) {
+        console.log(response.data);
+        window.location.href = "/";
+      } else {
+        alert("Incorrect");
+      }
     } catch (error) {
-      console.error("Error uploading the file: ", error);
+      alert("Incorrect");
+      console.error(error);
     }
   };
 
@@ -193,7 +199,7 @@ const ForgotPassword = () => {
                 margin="normal"
                 fullWidth
                 name="password"
-                label="Password"
+                label="New Password"
                 type={showPassword ? "text" : "password"}
                 id="password"
                 autoComplete="current-password"
@@ -223,45 +229,11 @@ const ForgotPassword = () => {
                   ),
                 }}
               />
-              <LoginTextField
-                margin="normal"
+              <StyledSubmitButton
                 fullWidth
-                name="password"
-                label="Confirm Password"
-                type={showConfirmPassword ? "text" : "password"}
-                id="password"
-                autoComplete="current-password"
-                value={ConfirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                variant="outlined"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment
-                      position="start"
-                      style={{ color: "#03a65f" }}
-                    >
-                      <KeyIcon />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowConfirmPassword}
-                        onMouseDown={handleMouseDownConfirmPassword}
-                        style={{ color: "#03a65f" }}
-                      >
-                        {showConfirmPassword ? (
-                          <Visibility />
-                        ) : (
-                          <VisibilityOff />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <StyledSubmitButton fullWidth style={{ marginTop: "10%" }}>
+                style={{ marginTop: "10%" }}
+                onClick={handleSubmit}
+              >
                 <b>Reset Password</b>
               </StyledSubmitButton>
             </Box>

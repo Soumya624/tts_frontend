@@ -103,7 +103,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/signup",
+        "https://tts-backend-ho81.onrender.com/signup",
         formData,
         {
           headers: {
@@ -113,13 +113,13 @@ const Signup = () => {
       );
       if (response.status === 200) {
         console.log(response.data);
-        window.location.href = "/login";
+        window.location.href = "/";
       } else {
-        console.error("Login failed: ", response.statusText);
-        alert("Signup Incorrect");
+        alert("Incorrect Signup");
       }
     } catch (error) {
-      console.error("Error uploading the file: ", error);
+      alert("Incorrect Signup");
+      console.error(error);
     }
   };
 
