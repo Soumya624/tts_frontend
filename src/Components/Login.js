@@ -102,15 +102,15 @@ const Login = () => {
           },
         }
       );
-      console.log(response.data);
       if (response.status === 200) {
         console.log(response.data);
-        window.location.href="/dashboard";
+        window.location.href = "/dashboard";
       } else {
         console.error("Login failed: ", response.statusText);
       }
     } catch (error) {
       console.error("Error uploading the file: ", error);
+      alert("Login Incorrect");
     }
   };
 

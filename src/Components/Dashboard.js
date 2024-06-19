@@ -60,7 +60,7 @@ const LoginTextField = styled(TextField)({
 });
 
 const Dashboard = () => {
-  const [language, setLanguage] = useState("English");
+  const [language, setLanguage] = useState("en");
   const [textInput, setTextInput] = useState("");
   const [audioFile, setAudioFile] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
@@ -94,19 +94,37 @@ const Dashboard = () => {
     formData.append("language", language);
     formData.append("text", textInput);
     formData.append("speaker_reference_file", audioFile);
-    formData.append("Speaker_reference_url", null);
+    formData.append("speaker_reference_url", "");
 
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
 
     try {
-      const response = await axios.post("https://test.rgenai-azure.devtest.truefoundry.tech/api/tts_inference/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(response);
+      const response = await axios.post(
+        "https://test.rgenai-azure.devtest.truefoundry.tech/api/tts_inference/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          responseType: "arraybuffer",
+        }
+      );
+      const blob = new Blob([response.data], { type: "audio/wav" });
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = "output.wav";
+      document.body.appendChild(a);
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      console.log("Audio File Downloaded!");
     } catch (error) {
       console.error("Error uploading the file: ", error);
     }
@@ -157,11 +175,13 @@ const Dashboard = () => {
             }}
             style={{ padding: "5% 10%" }}
           >
-            <b style={{ textAlign: "left", fontSize: "20px" }}>Welcome to Text-to-Speech API</b>
+            <b style={{ textAlign: "left", fontSize: "20px" }}>
+              Welcome to Text-to-Speech API
+            </b>
             <p style={{ fontSize: "16px", marginTop: "2%" }}>
               Please fill the details
             </p>
-            <br/>
+            <br />
             <form onSubmit={handleSubmit}>
               <label>
                 <b>Select Language: </b>
@@ -170,8 +190,8 @@ const Dashboard = () => {
                   <label>
                     <input
                       type="radio"
-                      value="English"
-                      checked={language === "English"}
+                      value="en"
+                      checked={language === "en"}
                       onChange={handleLanguageChange}
                     />
                     English
@@ -180,8 +200,8 @@ const Dashboard = () => {
                   <label>
                     <input
                       type="radio"
-                      value="Hindi"
-                      checked={language === "Hindi"}
+                      value="hi"
+                      checked={language === "hi"}
                       onChange={handleLanguageChange}
                     />
                     Hindi

@@ -111,7 +111,13 @@ const Signup = () => {
           },
         }
       );
-      console.log(response.data);
+      if (response.status === 200) {
+        console.log(response.data);
+        window.location.href = "/login";
+      } else {
+        console.error("Login failed: ", response.statusText);
+        alert("Signup Incorrect");
+      }
     } catch (error) {
       console.error("Error uploading the file: ", error);
     }
