@@ -33,9 +33,9 @@ import axios from "axios";
 const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(0.5),
-  color: "#03a65f",
+  color: "#4e88f2",
   backgroundColor: "#fff",
-  border: "2px solid #03a65f",
+  border: "2px solid #4e88f2",
   borderRadius: "10px",
   textTransform: "none",
   "&:hover": {
@@ -76,6 +76,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -90,6 +91,7 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoader(true);
     let formData = new FormData();
 
     formData.append("name", name);
@@ -120,6 +122,8 @@ const Signup = () => {
     } catch (error) {
       alert("Incorrect Signup");
       console.error(error);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -198,7 +202,7 @@ const Signup = () => {
                   startAdornment: (
                     <InputAdornment
                       position="start"
-                      style={{ color: "#03a65f" }}
+                      style={{ color: "#4e88f2" }}
                     >
                       <Person />
                     </InputAdornment>
@@ -220,7 +224,7 @@ const Signup = () => {
                   startAdornment: (
                     <InputAdornment
                       position="start"
-                      style={{ color: "#03a65f" }}
+                      style={{ color: "#4e88f2" }}
                     >
                       <CorporateFare />
                     </InputAdornment>
@@ -242,7 +246,7 @@ const Signup = () => {
                   startAdornment: (
                     <InputAdornment
                       position="start"
-                      style={{ color: "#03a65f" }}
+                      style={{ color: "#4e88f2" }}
                     >
                       <EmailIcon />
                     </InputAdornment>
@@ -264,7 +268,7 @@ const Signup = () => {
                   startAdornment: (
                     <InputAdornment
                       position="start"
-                      style={{ color: "#03a65f" }}
+                      style={{ color: "#4e88f2" }}
                     >
                       <KeyIcon />
                     </InputAdornment>
@@ -275,7 +279,7 @@ const Signup = () => {
                         aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
-                        style={{ color: "#03a65f" }}
+                        style={{ color: "#4e88f2" }}
                       >
                         {showPassword ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
@@ -291,6 +295,9 @@ const Signup = () => {
                 <b>Signup</b>
               </StyledSubmitButton>
               <center>
+                {loader && (
+                  <p style={{ color: "red" }}>Creating. Please Wait!</p>
+                )}
                 <Box
                   sx={{ justifyContent: "space-between", mt: 3 }}
                   style={{ marginTop: "3%" }}
@@ -298,7 +305,7 @@ const Signup = () => {
                   Already Registered?
                   <Link
                     href="/"
-                    style={{ color: "#03a65f", textDecoration: "none" }}
+                    style={{ color: "#4e88f2", textDecoration: "none" }}
                   >
                     <b> {"Login"}</b>
                   </Link>

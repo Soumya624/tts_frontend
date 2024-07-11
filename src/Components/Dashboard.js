@@ -17,14 +17,14 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import axios from "axios";
-import SeiSeiLogo from "./../Assets/SeiSei-Logo.png";
+import SeiSeiDB from "./../Assets/SeiSei-DB.png";
 
 const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(0.5),
-  color: "#03a65f",
+  color: "#4e88f2",
   backgroundColor: "#fff",
-  border: "2px solid #03a65f",
+  border: "2px solid #4e88f2",
   borderRadius: "10px",
   textTransform: "none",
   "&:hover": {
@@ -64,6 +64,7 @@ const Dashboard = () => {
   const [textInput, setTextInput] = useState("");
   const [audioFile, setAudioFile] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   const handleLanguageChange = (e) => {
     setLanguage(e.target.value);
@@ -89,6 +90,7 @@ const Dashboard = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoader(true);
 
     const formData = new FormData();
     formData.append("language", language);
@@ -127,6 +129,9 @@ const Dashboard = () => {
       console.log("Audio File Downloaded!");
     } catch (error) {
       console.error("Error uploading the file: ", error);
+    } finally {
+      setLoader(false);
+      window.location.reload();
     }
   };
 
@@ -146,7 +151,7 @@ const Dashboard = () => {
           }}
         >
           <Box sx={{ textAlign: "center", marginTop: "30%" }}>
-            <img src={SeiSeiLogo} alt="SeiSei Logo" style={{ width: "40%" }} />
+            <img src={SeiSeiDB} alt="SeiSei DB" style={{ width: "40%" }} />
           </Box>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="body2">
@@ -164,7 +169,7 @@ const Dashboard = () => {
         component="main"
         style={{ backgroundColor: "#f7f7f7" }}
       >
-        <Container maxWidth="xs">
+        <Container maxWidth="sm">
           <Paper
             elevation={0}
             sx={{
@@ -175,12 +180,22 @@ const Dashboard = () => {
             }}
             style={{ padding: "5% 10%" }}
           >
-            <b style={{ textAlign: "left", fontSize: "20px" }}>
-              Welcome to Text-to-Speech API
+            <b style={{ textAlign: "center", fontSize: "22px" }}>
+              Try Our Text-to-Speech API
             </b>
-            <p style={{ fontSize: "16px", marginTop: "2%" }}>
-              Please fill the details
+            <p
+              style={{
+                fontSize: "12px",
+                marginTop: "2%",
+                textAlign: "center",
+                color: "gray",
+              }}
+            >
+              Write your creative content and upload a reference audio in WAV
+              format. And let our model do the rest. You can see your text to
+              speech output in the downloads!
             </p>
+            <br />
             <br />
             <form onSubmit={handleSubmit}>
               <label>
@@ -239,22 +254,7 @@ const Dashboard = () => {
                   style={{ marginTop: "10px" }}
                 />
               </label>
-              {/* <br />
               <br />
-              <label>
-                <b>Provide .wav file URL:</b>
-                <br />
-                <input
-                  type="url"
-                  placeholder="https://example.com/audio.wav"
-                  onChange={handleUrlChange}
-                  style={{
-                    marginTop: "10px",
-                    width: "100%",
-                    padding: "1%",
-                  }}
-                />
-              </label> */}
               <br />
               <br />
               <br />
@@ -266,10 +266,15 @@ const Dashboard = () => {
                     borderRadius: "20px",
                     color: "white",
                     backgroundColor: "black",
+                    fontSize: "14px",
+                    fontWeight: "bold",
                   }}
                 >
                   Generate Audio
                 </button>
+                {loader && (
+                  <p style={{ color: "red" }}>Generating. Please Wait!</p>
+                )}
               </center>
             </form>
           </Paper>

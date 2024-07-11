@@ -26,9 +26,9 @@ import axios from "axios";
 const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(0.5),
-  color: "#03a65f",
+  color: "#4e88f2",
   backgroundColor: "#fff",
-  border: "2px solid #03a65f",
+  border: "2px solid #4e88f2",
   borderRadius: "10px",
   textTransform: "none",
   "&:hover": {
@@ -41,7 +41,7 @@ const StyledSubmitButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(0.5),
   color: "white",
-  backgroundColor: "#03a65f",
+  backgroundColor: "#4e88f2",
   borderRadius: "10px",
   textTransform: "capitalize",
   "&:hover": {
@@ -188,7 +188,7 @@ const ForgotPassword = () => {
                   startAdornment: (
                     <InputAdornment
                       position="start"
-                      style={{ color: "#03a65f" }}
+                      style={{ color: "#4e88f2" }}
                     >
                       <EmailIcon />
                     </InputAdornment>
@@ -210,7 +210,7 @@ const ForgotPassword = () => {
                   startAdornment: (
                     <InputAdornment
                       position="start"
-                      style={{ color: "#03a65f" }}
+                      style={{ color: "#4e88f2" }}
                     >
                       <KeyIcon />
                     </InputAdornment>
@@ -221,7 +221,7 @@ const ForgotPassword = () => {
                         aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
-                        style={{ color: "#03a65f" }}
+                        style={{ color: "#4e88f2" }}
                       >
                         {showPassword ? <Visibility /> : <VisibilityOff />}
                       </IconButton>

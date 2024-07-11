@@ -27,9 +27,9 @@ import axios from "axios";
 const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(0.5),
-  color: "#03a65f",
+  color: "#4e88f2",
   backgroundColor: "#fff",
-  border: "2px solid #03a65f",
+  border: "2px solid #4e88f2",
   borderRadius: "10px",
   textTransform: "none",
   "&:hover": {
@@ -69,6 +69,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -83,6 +84,7 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoader(true);
     const formData = new FormData();
 
     formData.append("email", email);
@@ -111,6 +113,8 @@ const Login = () => {
     } catch (error) {
       alert("Incorrect Login");
       console.error(error);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -187,7 +191,7 @@ const Login = () => {
                   startAdornment: (
                     <InputAdornment
                       position="start"
-                      style={{ color: "#03a65f" }}
+                      style={{ color: "#4e88f2" }}
                     >
                       <EmailIcon />
                     </InputAdornment>
@@ -209,7 +213,7 @@ const Login = () => {
                   startAdornment: (
                     <InputAdornment
                       position="start"
-                      style={{ color: "#03a65f" }}
+                      style={{ color: "#4e88f2" }}
                     >
                       <KeyIcon />
                     </InputAdornment>
@@ -220,7 +224,7 @@ const Login = () => {
                         aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
-                        style={{ color: "#03a65f" }}
+                        style={{ color: "#4e88f2" }}
                       >
                         {showPassword ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
@@ -242,9 +246,9 @@ const Login = () => {
                       onChange={(e) => setRememberMe(e.target.checked)}
                       name="remember"
                       sx={{
-                        color: "#03a65f",
+                        color: "#4e88f2",
                         "&.Mui-checked": {
-                          color: "#03a65f",
+                          color: "#4e88f2",
                         },
                       }}
                     />
@@ -252,8 +256,8 @@ const Login = () => {
                   label="Remember me"
                 />
                 <a
-                  href="/forgotPassword"
-                  style={{ color: "#03a65f", textDecoration: "none" }}
+                  href="#"
+                  style={{ color: "#4e88f2", textDecoration: "none" }}
                 >
                   Forgot Password?
                 </a>
@@ -267,6 +271,9 @@ const Login = () => {
                 <b>Login</b>
               </StyledSubmitButton>
               <center>
+                {loader && (
+                  <p style={{ color: "red" }}>Authenticating. Please Wait!</p>
+                )}
                 <Box
                   sx={{ justifyContent: "space-between", mt: 3 }}
                   style={{ marginTop: "3%" }}
@@ -274,7 +281,7 @@ const Login = () => {
                   Not Registered Yet?
                   <Link
                     href="/signup"
-                    style={{ color: "#03a65f", textDecoration: "none" }}
+                    style={{ color: "#4e88f2", textDecoration: "none" }}
                   >
                     <b> {"Create an Account"}</b>
                   </Link>
